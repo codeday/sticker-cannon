@@ -9,4 +9,4 @@ WORKDIR /app
 RUN NODE_ENV=development yarn install
 COPY . /app
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
-CMD /docker-entrypoint.sh
+CMD node run app
