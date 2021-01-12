@@ -8,5 +8,5 @@ WORKDIR /app
 
 RUN NODE_ENV=development yarn install
 COPY . /app
-RUN prisma generate
+RUN yarn prisma generate
 CMD node app
