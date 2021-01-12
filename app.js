@@ -5,9 +5,6 @@ const prisma = new PrismaClient()
 const app = express()
 const port = 3000
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
 app.use(bodyParser.json())
 app.post("/send", async (req, res) => {
   console.log(req.body)
