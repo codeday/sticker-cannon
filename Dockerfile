@@ -8,5 +8,5 @@ WORKDIR /app
 
 RUN NODE_ENV=development yarn install
 COPY . /app
-COPY ./docker-entrypoint.sh /docker-entrypoint.sh
+RUN prisma generate
 CMD node app
