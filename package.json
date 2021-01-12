@@ -13,7 +13,8 @@
     "body-parser": "^1.19.0",
     "dymojs": "^1.2.0",
     "express": "^4.17.1",
-    "printer-dymo": "^1.0.3"
+    "printer-dymo": "^1.0.3",
+    "raygun": "^0.12.2"
   },
   "devDependencies": {
     "@prisma/cli": "2.13.1"
