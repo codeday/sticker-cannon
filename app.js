@@ -10,8 +10,8 @@ app.post("/send", async (req, res) => {
   console.log(req.body)
   await prisma.address.create({
     data: {
-      first_name: req.body.FirstName,
-      last_name: req.body.LastName,
+      first_name: req.body.Name.First,
+      last_name: req.body.Name.Last,
       line_1: req.body.Address.Line1,
       line_2: req.body.Address.Line2,
       city: req.body.Address.City,
