@@ -12,11 +12,11 @@ app.post("/send", async (req, res) => {
     data: {
       first_name: req.body.FirstName,
       last_name: req.body.LastName,
-      line_1: req.body.AddressLine1,
-      line_2: req.body.AddressLine2,
-      city: req.body.City,
-      state: req.body.State,
-      zip:  req.body.ZipCode
+      line_1: req.body.Address.Line1,
+      line_2: req.body.Address.Line2,
+      city: req.body.Address.City,
+      state: req.body.Address.State,
+      zip:  req.body.Address.PostalCode
     }
   })
   res.status(200).end()
