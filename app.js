@@ -16,7 +16,8 @@ app.post("/send", async (req, res) => {
       line_2: req.body.Address.Line2,
       city: req.body.Address.City,
       state: req.body.Address.State,
-      zip:  req.body.Address.PostalCode
+      zip:  req.body.Address.PostalCode,
+      country: req.body.Address.Country
     }
   })
   res.status(200).end()
