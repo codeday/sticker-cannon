@@ -17,5 +17,6 @@ model address {
   state      String
   zip        String
   country    String?
+  metadata   String?
   printed    Boolean @default(false)
 }
