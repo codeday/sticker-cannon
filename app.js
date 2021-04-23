@@ -17,7 +17,8 @@ app.post("/send", async (req, res) => {
       city: req.body.Address.City,
       state: req.body.Address.State,
       zip:  req.body.Address.PostalCode,
-      country: req.body.Address.Country
+      country: req.body.Address.Country,
+      metadata: req.body.EventId
     }
   })
   res.status(200).end()
