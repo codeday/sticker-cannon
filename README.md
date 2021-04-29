@@ -50,5 +50,10 @@ Commands:
   print test                 Print a test address and return label
   print metadata [metadata]  Print return labels and addresses for all unprinted
                              labels with the given metadata
+  print id [id]              Print an address by id
+
+Options:
+  --version  Show version number                                       [boolean]
+  --help     Show help                                                 [boolean]
 ``` 
 for example `node print metadata virtual-codeday-spring-2021` would print all the as-of-yet unprinted labels with the `virtual-codeday-spring-2021` metadata (registrants for Virtual CodeDay Spring 2021)

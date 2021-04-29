@@ -20,40 +20,74 @@ yargs
       country: 'United States'
     })
   })
-  .command('metadata [metadata]', 'Print return labels and addresses for all unprinted labels with the given metadata', (yargs => {
-  yargs.positional('metadata', {
-    type: 'string',
-    describe: 'the metadata value to print'
-  })
-  }),
-   async function (argv) {
-    const toPrint = await prisma.address.findMany(
-    {where: {printed: false, metadata: argv.metadata}}
+  .command('metadata [metadata]', 'Print return labels and addresses for all unprinted labels with the given metadata', (yargs) => {
+      yargs.positional('metadata', {
+      type: 'string',
+      describe: 'the metadata value to print'
+    })},
+    async function (argv) {
+      const toPrint = await prisma.address.findMany(
+        {where: {printed: false, metadata: argv.metadata}}
+      )
+      console.log(`Printing ${toPrint.length} labels`)
+      for (const address of toPrint) {
+        try{
+          await print(address)
+          await prisma.address.update({
+            where: {id: address.id},
+            data: {printed: true},
+          })
+        }
+        catch(e) {
+          console.log(`error printing label for ${address.first_name}`)
+          console.error(e, address)
+        }
+      }
+      await prisma.$disconnect()
+    }
   )
-     console.log(`Printing ${toPrint.length} labels`)
-     for (const address of toPrint) {
-    try{
-    await print(address)
-    await prisma.address.update({
-      where: {id: address.id},
-      data: {printed: true},
+  .command('id [id]', 'Print an address by id', (yargs) => {
+      yargs.positional('id', {
+      type: 'integer',
+      describe: 'the id to print'
     })
-    }
-    catch(e) {
-      console.log(`error printing label for ${address.first_name}`)
-      console.error(e, address)
-    }
-  }
-  await prisma.$disconnect()
-   }
-  )
+      yargs.option('force', {
+      describe: 'print label regardless of if already marked as printed',
+      default: false,
+      type: 'boolean'
+    })},
+    async function (argv) {
+      const address = await prisma.address.findFirst(
+        {where: {
+            id: argv.id
+          }}
+      )
+      if (address.printed && !argv.force) {
+        console.log(`Not printing label for ${address.first_name} ${address.last_name} as it has already been printed (add --force to skip this check)`)
+      } else {
+        console.log(`Printing label for ${address.first_name} ${address.last_name} (${address.metadata || 'no metadata'}`)
+        try {
+          await print(address)
+          await prisma.address.update({
+            where: {id: address.id},
+            data: {printed: true},
+          })
+        }
+        catch(e) {
+          console.log(`error printing label for ${address.first_name}`)
+          console.error(e, address)
+        }
+      }
+      await prisma.$disconnect()
+
+    })
   .help()
   .argv
 async function print(address) {
-    dymo = new Dymo();
-    // i reccomend collapsing the xml files, i was too lazy to figure out importing them from somewhere else (i did try), i'm the only one who uses this anyways
-    // xml for CodeDay logo (return label)
-    var logoXml = `<?xml version="1.0" encoding="utf-8"?>
+  dymo = new Dymo();
+  // i reccomend collapsing the xml files, i was too lazy to figure out importing them from somewhere else (i did try), i'm the only one who uses this anyways
+  // xml for CodeDay logo (return label)
+  var logoXml = `<?xml version="1.0" encoding="utf-8"?>
 <DesktopLabel Version="1">
   <DYMOLabel Version="3">
     <Description>DYMO Label</Description>
