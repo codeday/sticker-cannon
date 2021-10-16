@@ -1,4 +1,4 @@
-#Sticker Cannon
+# Sticker Cannon
 A tool for printing address labels using a DYMO LabelWriter 450 Label Printer
 
 ### Environment Variables
